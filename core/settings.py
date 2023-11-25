@@ -26,6 +26,7 @@ class Settings:
     bots: Bots
     mode: TimeMode
     database_url: str
+    final_msgs: list[str]
 
     class Config:
         env_file = ".env"
@@ -44,6 +45,11 @@ def get_settings() -> Settings:
             timezone=os.getenv(key="TIMEZONE"),
         ),
         database_url=os.getenv(key="DATABASE_URL"),
+        final_msgs=[
+            "Не отставливайся!",
+            "Продолжай!",
+            "Покорми следующую собаню!",
+        ],
     )
 
 

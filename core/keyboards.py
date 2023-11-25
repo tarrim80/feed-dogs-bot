@@ -9,7 +9,7 @@ async def feed_dogs() -> InlineKeyboardMarkup:
     dogs = await get_hungry_dogs()
     for dog in dogs:
         keyboard_builder.button(
-            text=f"{dog.name} поела", callback_data="dog_feed"
+            text=f"{dog.name} поела", callback_data=f"dog_feed_{dog.id}"
         )
     keyboard_builder.adjust(3)
     return keyboard_builder.as_markup(
