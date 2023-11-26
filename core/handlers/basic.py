@@ -37,7 +37,7 @@ async def direct_hello_msg(message: Message, bot: Bot):
     )
 
 
-async def have_hungry_dogs_msg(bot: Bot):
+async def have_hungry_dogs_msg(bot: Bot) -> None:
     await bot.send_message(
         chat_id=await get_chat_id(),
         text=(
@@ -48,7 +48,7 @@ async def have_hungry_dogs_msg(bot: Bot):
     )
 
 
-async def not_have_hungry_dogs_msg(bot: Bot):
+async def not_have_hungry_dogs_msg(bot: Bot) -> None:
     est_time = await get_estimated_time_formatted()
     await bot.send_message(
         chat_id=await get_chat_id(),
@@ -75,7 +75,7 @@ async def get_feed(message: Message, bot: Bot) -> None:
     )
 
 
-async def next_dog_feed(message: Message, bot: Bot):
+async def next_dog_feed(message: Message, bot: Bot) -> None:
     id: int = message.data.split("_")[-1]
     await set_feed_dog(id=id)
     hugry_dogs = await get_hungry_dogs()
@@ -96,7 +96,7 @@ async def next_dog_feed(message: Message, bot: Bot):
         await message.answer()
 
 
-async def get_help(message: Message, bot: Bot):
+async def get_help(message: Message, bot: Bot) -> None:
     await bot.send_message(
         chat_id=message.from_user.id,
         text=(

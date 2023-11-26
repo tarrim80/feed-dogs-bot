@@ -8,7 +8,7 @@ from core.models.feed_dogs import FeedDog
 async def get_hungry_dogs() -> ScalarResult[FeedDog]:
     async with async_session() as session:
         result = await session.execute(
-            statement=select(FeedDog).where(not_(FeedDog.is_feed))
+            statement=select(FeedDog).where(not_(clause=FeedDog.is_feed))
         )
         return result.scalars().all()
 
@@ -20,19 +20,19 @@ async def set_feed_dog(id: FeedDog.id) -> None:
         )
         dog = stmt.scalars().first()
         dog.is_feed = True
-        session.add(dog)
+        session.add(instance=dog)
         await session.commit()
-        await session.refresh(dog)
+        await session.refresh(instance=dog)
 
 
-async def set_chat_id(chat_id: BigInteger):
+async def set_chat_id(chat_id: BigInteger) -> None:
     async with async_session() as session:
         result = await session.execute(
             statement=select(ChatId).where(ChatId.id == chat_id)
         )
         chat_id_db = result.scalars().first()
         if not chat_id_db:
-            session.add(ChatId(id=chat_id))
+            session.add(instance=ChatId(id=chat_id))
             await session.commit()
 
 

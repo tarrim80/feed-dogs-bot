@@ -2,10 +2,12 @@ from aiogram import Bot
 from aiogram.types import BotCommand, BotCommandScopeDefault
 
 
-async def set_commands(bot: Bot):
+async def set_commands(bot: Bot) -> None:
     commands = [
         BotCommand(command="start", description="Начало работы"),
         BotCommand(command="help", description="Некоторые правила кормления"),
     ]
 
-    await bot.set_my_commands(commands, BotCommandScopeDefault())
+    await bot.set_my_commands(
+        commands=commands, scope=BotCommandScopeDefault()
+    )

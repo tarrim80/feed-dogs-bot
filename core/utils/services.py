@@ -16,7 +16,7 @@ async def get_estimated_time_to_feed() -> timedelta:
     ) - datetime.combine(date=datetime.today(), time=now)
 
 
-async def get_estimated_time_formatted():
+async def get_estimated_time_formatted() -> str:
     estimated_time = await get_estimated_time_to_feed()
     est_hours, remainder = divmod(estimated_time.seconds, 3600)
     est_minutes, _ = divmod(remainder, 60)

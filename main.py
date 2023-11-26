@@ -55,6 +55,6 @@ async def start() -> None:
 
 if __name__ == "__main__":
     try:
-        asyncio.run(start())
+        asyncio.run(main=start())
     except KeyboardInterrupt:
         feed_dogs_logger.info(msg="Прервано пользователем")
