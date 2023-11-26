@@ -34,9 +34,14 @@ async def start() -> None:
 
     scheduller.add_job(
         func=apsched.feed_dogs_time,
-        trigger="cron",
-        hour=1,
-        minute=32,
+        trigger="morning",
+        hour=settings.mode.first_time,
+        kwargs={"bot": bot},
+    )
+    scheduller.add_job(
+        func=apsched.feed_dogs_time,
+        trigger="evening",
+        hour=settings.mode.second_time,
         kwargs={"bot": bot},
     )
     scheduller.start()

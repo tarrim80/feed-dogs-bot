@@ -4,14 +4,19 @@ from aiogram import Bot
 from aiogram.types import Message, ReplyKeyboardRemove
 
 import core.keyboards as kb
-from core.database.requests import get_hungry_dogs, set_feed_dog
+from core.database.requests import (
+    get_chat_id,
+    get_hungry_dogs,
+    set_chat_id,
+    set_feed_dog,
+)
 from core.settings import settings
 from core.utils.services import get_estimated_time_formatted
 
 
 async def get_start(message: Message, bot: Bot) -> None:
     hungry_dogs = await get_hungry_dogs()
-
+    await set_chat_id(chat_id=message.chat.id)
     if not hungry_dogs:
         await not_have_hungry_dogs_msg(bot=bot)
     else:
@@ -34,7 +39,7 @@ async def direct_hello_msg(message: Message, bot: Bot):
 
 async def have_hungry_dogs_msg(bot: Bot):
     await bot.send_message(
-        chat_id=-1001669568306,
+        chat_id=await get_chat_id(),
         text=(
             "Сейчас есть некормленные собаки. Если ты готов их покормить, "
             "нажми кнопку."
@@ -46,7 +51,7 @@ async def have_hungry_dogs_msg(bot: Bot):
 async def not_have_hungry_dogs_msg(bot: Bot):
     est_time = await get_estimated_time_formatted()
     await bot.send_message(
-        chat_id=-1001669568306,
+        chat_id=await get_chat_id(),
         text=(
             f"Прекрасно! \n"
             "Сейчас все собачки уже накормлены. Следующее кормление "
@@ -65,7 +70,7 @@ async def get_feed(message: Message, bot: Bot) -> None:
     )
     await message.answer()
     await bot.send_message(
-        chat_id=-1001669568306,
+        chat_id=await get_chat_id(),
         text=f"Отлично! Сейчас {message.from_user.first_name} покормит собак.",
     )
 
@@ -88,4 +93,5 @@ async def next_dog_feed(message: Message, bot: Bot):
             text=f"Отлично! {final_msg}",
             reply_markup=await kb.feed_dogs(),
         )
+        await message.answer()
         await message.answer()
