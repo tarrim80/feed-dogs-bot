@@ -1,5 +1,4 @@
 import asyncio
-import logging
 
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
@@ -7,24 +6,21 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from core.handlers import apsched
 from core.handlers.basic import get_feed, get_help, get_start, next_dog_feed
+from core.loggers import feed_dogs_logger
 from core.settings import settings
 from core.utils.commands import set_commands
 
 
 async def start_bot(bot: Bot) -> None:
     await set_commands(bot=bot)
-    logging.info("Bot started")
+    feed_dogs_logger.info(msg="Bot started")
 
 
 async def stop_bot(bot: Bot) -> None:
-    logging.info("Bot stopped")
+    feed_dogs_logger.info(msg="Bot stopped")
 
 
 async def start() -> None:
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(levelname)s %(name)s %(message)s",
-    )
     bot = Bot(
         token=settings.bots.bot_token, parse_mode=settings.bots.parse_mode
     )
@@ -61,4 +57,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(start())
     except KeyboardInterrupt:
-        ...
+        feed_dogs_logger.info(msg="Прервано пользователем")
