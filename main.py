@@ -6,7 +6,7 @@ from aiogram.filters import Command
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from core.handlers import apsched
-from core.handlers.basic import get_feed, get_start, next_dog_feed
+from core.handlers.basic import get_feed, get_help, get_start, next_dog_feed
 from core.settings import settings
 from core.utils.commands import set_commands
 
@@ -34,13 +34,13 @@ async def start() -> None:
 
     scheduller.add_job(
         func=apsched.feed_dogs_time,
-        trigger="morning",
+        trigger="cron",
         hour=settings.mode.first_time,
         kwargs={"bot": bot},
     )
     scheduller.add_job(
         func=apsched.feed_dogs_time,
-        trigger="evening",
+        trigger="cron",
         hour=settings.mode.second_time,
         kwargs={"bot": bot},
     )
@@ -48,6 +48,7 @@ async def start() -> None:
     dp.startup.register(callback=start_bot)
     dp.shutdown.register(callback=stop_bot)
     dp.message.register(get_start, Command(commands=["start", "run"]))
+    dp.message.register(get_help, Command(commands=["help", "rules"]))
     dp.callback_query.register(get_feed, F.data == "i_feed")
     dp.callback_query.register(next_dog_feed, F.data.contains("dog_feed"))
     try:
