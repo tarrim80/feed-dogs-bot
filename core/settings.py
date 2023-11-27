@@ -11,7 +11,6 @@ load_dotenv()
 class TimeMode:
     first_time: int
     second_time: int
-    timezone: str
 
 
 @dataclass
@@ -44,11 +43,10 @@ def get_settings() -> Settings:
         mode=TimeMode(
             first_time=os.getenv(key="FIRST_TIME"),
             second_time=os.getenv(key="SECOND_TIME"),
-            timezone=os.getenv(key="TIMEZONE"),
         ),
         database_url=os.getenv(key="DATABASE_URL"),
         final_msgs=[
-            "Не отставливайся!",
+            "Не останавливайся!",
             "Продолжай!",
             "Покорми следующую собаню!",
         ],

@@ -30,7 +30,7 @@ async def start() -> None:
     )
     dp = Dispatcher()
 
-    scheduller = AsyncIOScheduler(timezone=settings.mode.timezone)
+    scheduller = AsyncIOScheduler()
 
     scheduller.add_job(
         func=apsched.feed_dogs_time,
