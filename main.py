@@ -1,6 +1,7 @@
 import asyncio
 
 from aiogram import Bot, Dispatcher, F
+from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.filters import Command
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
@@ -21,10 +22,11 @@ async def stop_bot(bot: Bot) -> None:
 
 
 async def start() -> None:
+    session = AiohttpSession(proxy=settings.bots.proxy_url)
     bot = Bot(
         token=settings.bots.bot_token,
-        proxy=settings.bots.proxy_url,
         parse_mode=settings.bots.parse_mode,
+        session=session,
     )
     dp = Dispatcher()
 
