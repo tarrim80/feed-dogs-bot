@@ -13,6 +13,16 @@ async def get_hungry_dogs() -> ScalarResult[FeedDog]:
         return result.scalars().all()
 
 
+async def set_hungry_dogs() -> ScalarResult[FeedDog]:
+    async with async_session() as session:
+        result = await session.execute(statement=select(FeedDog))
+        dogs = result.scalars().all()
+        for dog in dogs:
+            dog.is_feed = False
+            session.add(instance=dog)
+        await session.commit()
+
+
 async def set_feed_dog(id: FeedDog.id) -> None:
     async with async_session() as session:
         stmt = await session.execute(
@@ -25,6 +35,13 @@ async def set_feed_dog(id: FeedDog.id) -> None:
         await session.refresh(instance=dog)
 
 
+async def get_chat_id() -> BigInteger:
+    async with async_session() as session:
+        result = await session.execute(statement=select(ChatId))
+        chat_id_db = result.scalars().first()
+        return chat_id_db.id
+
+
 async def set_chat_id(chat_id: BigInteger) -> None:
     async with async_session() as session:
         result = await session.execute(
@@ -34,10 +51,3 @@ async def set_chat_id(chat_id: BigInteger) -> None:
         if not chat_id_db:
             session.add(instance=ChatId(id=chat_id))
             await session.commit()
-
-
-async def get_chat_id() -> BigInteger:
-    async with async_session() as session:
-        result = await session.execute(statement=select(ChatId))
-        chat_id_db = result.scalars().first()
-        return chat_id_db.id
