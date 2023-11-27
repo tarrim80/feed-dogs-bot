@@ -19,6 +19,7 @@ class Bots:
     bot_token: str
     admin_id: int
     parse_mode: str
+    proxy_url: str
 
 
 @dataclass
@@ -38,6 +39,7 @@ def get_settings() -> Settings:
             bot_token=os.getenv(key="TELEGRAM_TOKEN"),
             admin_id=os.getenv(key="ADMIN_TELEGRAM_ID"),
             parse_mode=ParseMode.HTML,
+            proxy_url=os.getenv(key="PROXY_URL"),
         ),
         mode=TimeMode(
             first_time=os.getenv(key="FIRST_TIME"),

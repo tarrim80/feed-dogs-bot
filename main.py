@@ -22,7 +22,9 @@ async def stop_bot(bot: Bot) -> None:
 
 async def start() -> None:
     bot = Bot(
-        token=settings.bots.bot_token, parse_mode=settings.bots.parse_mode
+        token=settings.bots.bot_token,
+        proxy=settings.bots.proxy_url,
+        parse_mode=settings.bots.parse_mode,
     )
     dp = Dispatcher()
 
