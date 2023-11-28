@@ -41,13 +41,6 @@ async def start() -> None:
         hour=settings.mode.second_time,
         kwargs={"bot": bot},
     )
-    scheduller.add_job(
-        func=apsched.feed_dogs_time,
-        trigger="cron",
-        hour=9,
-        minute=6,
-        kwargs={"bot": bot},
-    )
     scheduller.start()
     dp.startup.register(callback=start_bot)
     dp.shutdown.register(callback=stop_bot)
