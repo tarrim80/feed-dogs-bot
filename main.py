@@ -49,7 +49,7 @@ async def start() -> None:
     dp.callback_query.register(get_feed, F.data == "i_feed")
     dp.callback_query.register(next_dog_feed, F.data.contains("dog_feed"))
     try:
-        await dp.start_polling(bot)
+        await dp.start_polling(bot, skip_updates=True)
     finally:
         await bot.session.close()
 
